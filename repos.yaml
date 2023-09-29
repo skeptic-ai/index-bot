@@ -17,21 +17,3 @@ repos:
       file_extensions:
         value: [".yaml"]
         type: INCLUDE
-  - owner: skeptic-ai
-    repo: k8mpatible
-    filters:
-      directories:
-        value: ["/"]
-        type: INCLUDE
-      file_extensions:
-        value: [".md",".yaml",".go"]
-        type: INCLUDE
-  # - owner: aws
-  #   repo: aws-eks-best-practices
-  #   filters:
-  #     directories:
-  #       value: ["/"]
-  #       type: INCLUDE
-  #     file_extensions:
-  #       value: [".md"]
-  #       type: INCLUDE
