@@ -1,0 +1,37 @@
+repos:
+  - owner: istio
+    repo: istio.io
+    filters:
+      directories:
+        value: ["content/en/docs"]
+        type: INCLUDE
+      file_extensions:
+        value: [".md"]
+        type: INCLUDE
+  - owner: istio
+    repo: istio
+    filters:
+      directories:
+        value: ["releasenotes/notes"]
+        type: INCLUDE
+      file_extensions:
+        value: [".yaml"]
+        type: INCLUDE
+  - owner: skeptic-ai
+    repo: k8mpatible
+    filters:
+      directories:
+        value: ["/"]
+        type: INCLUDE
+      file_extensions:
+        value: [".md",".yaml",".go"]
+        type: INCLUDE
+  # - owner: aws
+  #   repo: aws-eks-best-practices
+  #   filters:
+  #     directories:
+  #       value: ["/"]
+  #       type: INCLUDE
+  #     file_extensions:
+  #       value: [".md"]
+  #       type: INCLUDE
