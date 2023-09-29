@@ -15,6 +15,7 @@ def parse_and_load(yaml_file_path):
     for repo_config in config['repos']:
         owner = repo_config['owner']
         repo = repo_config['repo']
+        branch = repo_config['branch']
         filters = {
             "directories": (
                 repo_config['filters']['directories']['value'],
@@ -25,12 +26,12 @@ def parse_and_load(yaml_file_path):
                 getattr(GithubRepositoryReader.FilterType, repo_config['filters']['file_extensions']['type'])
             )
         }
-        docs = load_repos2(owner, repo, filters)
+        docs = load_repos2(branch, owner, repo, filters)
         all_docs.extend(docs)
 
     return all_docs
 
-def load_repos2(owner="istio", repo="istio.io", filters=None):
+def load_repos2(branch,owner="istio", repo="istio.io", filters=None):
     docs = load_docs_if_exist(owner,repo)
     if docs is None:
         print(f"repo not cached, loading docs for {repo} from github")
@@ -54,7 +55,7 @@ def load_repos2(owner="istio", repo="istio.io", filters=None):
             concurrent_requests=10,
         )
 
-        docs = loader.load_data(branch="master")
+        docs = loader.load_data(branch=branch)
         #Save docs to file
         with open(f"./storage/{owner}_{repo}_docs", 'wb') as file:
             pickle.dump(docs, file)
