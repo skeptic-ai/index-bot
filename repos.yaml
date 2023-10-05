@@ -1,6 +1,7 @@
 repos:
   - owner: istio
     repo: istio.io
+    branch: master
     filters:
       directories:
         value: ["content/en/docs"]
@@ -10,6 +11,7 @@ repos:
         type: INCLUDE
   - owner: istio
     repo: istio
+    branch: master
     filters:
       directories:
         value: ["releasenotes/notes"]

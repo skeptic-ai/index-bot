@@ -4,6 +4,7 @@ import os
 from util import  parse_and_load
 from llama_index.llms import OpenAI
 from llama_index import  GPTVectorStoreIndex, ServiceContext, KeywordTableIndex, StorageContext, load_index_from_storage
+from IPython.display import display, Markdown
 storage_context = None
 index = None
 # print("checking for stored index")
@@ -28,7 +29,7 @@ chat_engine = index.as_chat_engine()
 while True:
     text_input = input("User: ")
     response = chat_engine.chat(text_input)
-    print(f"Agent: {response}")
+    display(Markdown(f"Bot: {response}"))
 
 # query_engine = index.as_query_engine()
 
