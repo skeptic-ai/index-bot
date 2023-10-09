@@ -21,13 +21,7 @@ index = create_index(docs, config["model"])
 
 # index = KeywordTableIndex.from_documents(docs,service_context=service_context)
 print("done creating index")
-# chat_engine = index.as_chat_engine()
 
-
-# while True:
-#     text_input = input("User: ")
-#     response = chat_engine.chat(text_input)
-#     display_markdown(f"Bot: {response}")
 
 query_engine = index.as_query_engine()
 while True:
