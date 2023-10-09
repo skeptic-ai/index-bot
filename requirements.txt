@@ -1,3 +1,6 @@
 llama-index
 notebook
 llama-hub
+markdown 
+html2text
+mdv

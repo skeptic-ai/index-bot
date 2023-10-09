@@ -1,16 +1,18 @@
 import pickle
 from llama_index.llms import OpenAI
-from llama_index import download_loader, GPTVectorStoreIndex, ServiceContext, KeywordTableIndex
-
+from llama_index import download_loader, GPTVectorStoreIndex, ServiceContext, KeywordTableIndex, StorageContext, load_index_from_storage
 from llama_hub.github_repo import GithubClient, GithubRepositoryReader
 import os
-
+import markdown
+import html2text
+import mdv
 import yaml
-
-def parse_and_load(yaml_file_path):
-    with open(yaml_file_path, 'r') as file:
+def load_file(filename):
+    with open(filename, 'r') as file:
         config = yaml.safe_load(file)
-
+        return config
+    
+def parse_and_load(config):
     all_docs = []
     for repo_config in config['repos']:
         owner = repo_config['owner']
@@ -71,4 +73,22 @@ def load_docs_if_exist(owner,repo):
             print(f"loaded docs for {repo} from cache")
     return docs
 
+
+def create_index(docs,model):
+    print("checking for stored index")
+    if os.path.exists("./storage/index"):
+        print("using stored index")
+        storage_context = StorageContext.from_defaults(persist_dir=f'./storage/index')
+        index = load_index_from_storage(storage_context=storage_context)
+        return index
+    storage_context = StorageContext.from_defaults()
+    llm = OpenAI(temperature=0.1, model=model)
+    service_context = ServiceContext.from_defaults(llm=llm)
+    index = GPTVectorStoreIndex.from_documents(docs,storage_context=storage_context,service_context=service_context)
+    print("created new index")
+    storage_context.persist(persist_dir=f'./storage/index')
+    return index
+
+def display_markdown(md_content):
+    print(mdv.main(md_content, theme=970))
 
