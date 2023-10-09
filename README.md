@@ -6,13 +6,13 @@ Simple python script to easily configure and run custom index with a chatgpt cha
 
 You will need python 3.10+ and to set GITHUB_TOKEN and a OPENAI_API_KEY in your environment variables to run the python notebook. 
 
-`pip install -r requirements.txt` to grab the dependencies. 
+`pip3 install -r requirements.txt` to grab the dependencies. 
 
 ## Running
 
 - configure your repo list in the repos.yaml file. 
 - `mkdir storage` and then
-- `jupyter notebook` or `python github.py`
+- `python index-bot.py`
 
 ## Cache
 
