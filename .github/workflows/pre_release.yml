@@ -5,7 +5,8 @@ on:
   push:
     branches:
       - "master"
-
+permissions:
+  contents: write
 jobs:
   pre-release:
     name: "Pre Release"
