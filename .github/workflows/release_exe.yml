@@ -1,3 +1,45 @@
+
+name: "pre-release"
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10  # Use the desired version
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+
+    - name: Build Executable
+      run: |
+        pyinstaller --onefile index-bot.py
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            dist/index-bot
+
+---
+
 name: Release Executable
 
 on:
@@ -16,7 +58,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8  # Use the desired version
+        python-version: 3.10  # Use the desired version
 
     - name: Install dependencies
       run: |
@@ -38,7 +80,7 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Upload Release Asset
+    - name: Upload linux binary
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1
       env:
@@ -46,5 +88,15 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} 
         asset_path: ./dist/index-bot
-        asset_name: index-bot.exe
+        asset_name: index-bot
         asset_content_type: application/octet-stream
+    # - name: Upload windows exe
+    #   id: upload-release-exe 
+    #   uses: actions/upload-release-asset@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     upload_url: ${{ steps.create_release.outputs.upload_url }} 
+    #     asset_path: ./dist/index-bot
+    #     asset_name: index-bot
+    #     asset_content_type: application/octet-stream
