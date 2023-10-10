@@ -12,7 +12,7 @@ You will need python 3.10+ and to set GITHUB_TOKEN and a OPENAI_API_KEY in your 
 
 - configure your repo list in the repos.yaml file. 
 - `mkdir storage` and then
-- `python index-bot.py`
+- `python index-bot 0T90 M 65 9065MM 90M65Y T.py`
 
 ## Cache
 
@@ -35,3 +35,4 @@ Specify a yaml list of repos with their owner, the branch, and the file types an
         type: INCLUDE
 ```
 
+test
