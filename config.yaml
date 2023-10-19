@@ -1,16 +1,17 @@
 model: gpt-3.5
+verbose: no
 # model: gpt-4
 repos:
   - owner: istio
     repo: istio.io
     branch: master
-    filters:
-      directories:
-        value: ["content/en/docs"]
-        type: INCLUDE
-      file_extensions:
-        value: [".md"]
-        type: INCLUDE
+    # filters:
+    #   directories:
+    #     value: ["content/en/docs"]
+    #     type: INCLUDE
+    #   file_extensions:
+    #     value: [".md"]
+    #     type: INCLUDE
   - owner: istio
     repo: istio
     branch: master

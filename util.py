@@ -37,19 +37,18 @@ def parse_and_load(config):
                     getattr(GithubRepositoryReader.FilterType, repo_config['filters']['file_extensions']['type'])
                 )
             }
-        docs = load_repos2(branch, owner, repo, filters)
+        docs = load_repos2(branch, owner, repo, filters,config["verbose"] )
         all_docs.extend(docs)
 
     return all_docs
 
-def load_repos2(branch,owner="istio", repo="istio.io", filters=None):
+def load_repos2(branch,owner="istio", repo="istio.io", filters=None, verbose=False):
     docs = load_docs_if_exist(owner,repo)
     if docs is None:
         print(f"repo not cached, loading docs for {repo} from github")
         download_loader("GithubRepositoryReader")
         github_client = GithubClient(os.getenv("GITHUB_TOKEN"))
         
-
     
         loader = GithubRepositoryReader(
             github_client,
@@ -57,7 +56,7 @@ def load_repos2(branch,owner="istio", repo="istio.io", filters=None):
             repo=repo,
             filter_directories=filters["directories"],
             filter_file_extensions=filters["file_extensions"],
-            verbose=False,
+            verbose=verbose,
             concurrent_requests=10,
         )
 
