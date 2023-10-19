@@ -4,3 +4,4 @@ llama-hub
 markdown 
 html2text
 mdv
+pyinstaller

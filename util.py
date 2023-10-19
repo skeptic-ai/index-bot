@@ -14,20 +14,29 @@ def load_file(filename):
     
 def parse_and_load(config):
     all_docs = []
-    for repo_config in config['repos']:
+    for repo_config in config['repos']: 
+        print(f"loading docs for {repo_config['repo']}")
         owner = repo_config['owner']
         repo = repo_config['repo']
         branch = repo_config['branch']
-        filters = {
-            "directories": (
-                repo_config['filters']['directories']['value'],
-                getattr(GithubRepositoryReader.FilterType, repo_config['filters']['directories']['type'])
-            ),
-            "file_extensions": (
-                repo_config['filters']['file_extensions']['value'],
-                getattr(GithubRepositoryReader.FilterType, repo_config['filters']['file_extensions']['type'])
-            )
-        }
+        directories = ()
+        #check if key filters exist in repoconfig 
+        if 'filters' not in repo_config:
+            filters = {
+                "directories": None,
+                "file_extensions": None
+            }
+        else:
+            filters = {
+                "directories": (
+                    repo_config['filters']['directories']['value'],
+                    getattr(GithubRepositoryReader.FilterType, repo_config['filters']['directories']['type'])
+                ),
+                "file_extensions": (
+                    repo_config['filters']['file_extensions']['value'],
+                    getattr(GithubRepositoryReader.FilterType, repo_config['filters']['file_extensions']['type'])
+                )
+            }
         docs = load_repos2(branch, owner, repo, filters)
         all_docs.extend(docs)
 
@@ -40,12 +49,7 @@ def load_repos2(branch,owner="istio", repo="istio.io", filters=None):
         download_loader("GithubRepositoryReader")
         github_client = GithubClient(os.getenv("GITHUB_TOKEN"))
         
-        # Default filters if none are provided
-        if filters is None:
-            filters = {
-                "directories": (["content/en/docs"], GithubRepositoryReader.FilterType.INCLUDE),
-                "file_extensions": ([".md"], GithubRepositoryReader.FilterType.INCLUDE)
-            }
+
     
         loader = GithubRepositoryReader(
             github_client,
