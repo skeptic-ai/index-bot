@@ -22,10 +22,7 @@ def parse_and_load(config):
         directories = ()
         #check if key filters exist in repoconfig 
         if 'filters' not in repo_config:
-            filters = {
-                "directories": None,
-                "file_extensions": None
-            }
+            filters = None
         else:
             filters = {
                 "directories": (
@@ -49,16 +46,26 @@ def load_repos2(branch,owner="istio", repo="istio.io", filters=None, verbose=Fal
         download_loader("GithubRepositoryReader")
         github_client = GithubClient(os.getenv("GITHUB_TOKEN"))
         
-    
-        loader = GithubRepositoryReader(
-            github_client,
-            owner=owner,
-            repo=repo,
-            filter_directories=filters["directories"],
-            filter_file_extensions=filters["file_extensions"],
-            verbose=verbose,
-            concurrent_requests=10,
-        )
+        if filters is None:
+            loader = GithubRepositoryReader(
+                github_client,
+                owner=owner,
+                repo=repo,
+     
+                verbose=verbose,
+                concurrent_requests=10,
+            )
+        else:
+            loader = GithubRepositoryReader(
+                github_client,
+                owner=owner,
+                repo=repo,
+                filter_directories=filters["directories"],
+                filter_file_extensions=filters["file_extensions"],
+                
+                verbose=verbose,
+                concurrent_requests=10,
+            )
 
         docs = loader.load_data(branch=branch)
         #Save docs to file
